@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>render渲染</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h2>我是app里的h2标签</h2>
+        </div>
+
+        <template id="App">
+            <div>
+                <h3>我是app组件</h3>
+                <p>{{ msg }}</p>
+                <button class="btn btn-success" @click='show'>点击我触发App里面的show方法</button>
+            </div>
+        </template>
+
+        <script>
+
+            const app = {
+                template:'#App',
+                data(){
+                    return {
+                        msg:'我是App组件里的data数据'
+                    }
+                },
+                methods:{
+                    show(){
+                        console.log('我是App里面的 show 方法')
+                    }
+                }
+            }
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{},
+                methods:{},
+                render:c=>c(app)
+
+                // 可以看见 App组件已经把 app给取代了
+                // render 会完全取代 el指定的容器
+            })
+        
+        </script>
+    </body>
+</html>

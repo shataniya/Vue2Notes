@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-bind绑定</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model='msg1'>
+            <input type="text" v-model='msg2'>
+            <!-- <p v-text='msg3'></p> -->
+            <p>{{ msg3 }}</p>
+        </div>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    msg1:'',
+                    msg2:'',
+                    // msg3:''
+                },
+                methods:{},
+                computed:{
+                    msg3:function(){
+                        return this.msg1+this.msg2
+                    }
+
+                    // 总结：computed计算属性有一些特点：
+                    // 1. 计算属性里定义的属性，可以理解为 data数据，可以通过使用占位符直接调用
+                    // 2. 计算属性里定义的属性就是 data数据
+                    // 3. 如果 data数据已经定义了一个属性，那么在computed计算属性里就不能重复定义这个属性，不然会提示 data里已经定义过
+                    // 4. computed计算属性 本质上是一个有返回值的方法，因此在定义属性的时候，后边跟上的函数必须有 return（保证有返回值）
+                    // 5. 虽然本质是方法，但是使用的时候就当做 属性来使用
+                    // 6. 计算属性的结果会被缓存，除非数据改变，不然数据不会改变
+                }
+            })
+        
+        </script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>父组件向子组件传data数据</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model='fathermsg'>
+            <!-- 父组件通过绑定属性的方式来向子组件传data数据 -->
+            <!-- 父组件通过事件绑定的形式来向子组件传递方法 -->
+            <com1 :sonmsg='fathermsg' :msg1='message' @sonmethod='fathermethod' @sonshow='fathershow'></com1>
+            <button @click='fathermethod'>我是父组件中的按钮，点击我会触发点击事件</button>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h4>我是子组件</h4>
+                <p>{{ sonmsg }}</p>
+                <p>{{ msg1 }}</p>
+                <button @click='sonclick'>我是子组件中的按钮，点击我会触发点击事件</button>
+                <button @click='showclick'>我是子组件的按钮，点击我会触发点击事件</button>
+            </div>
+        </template>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    fathermsg:'你是不还是傻逼',
+                    message:'皇马天下第一'
+                },
+                methods:{
+                    fathermethod(){
+                        alert('我是父组件向子组件传递的方法')
+                    },
+                    fathershow(){
+                        console.log('我是父组件的show方法')
+                    }
+                },
+                components:{
+                    com1:{
+                        template:'#temp1',
+                        // 1. 父组件通过绑定属性向子组件传data数据，要将绑定的属性注册到子组件里的 props 数组里
+                        // 2. 这样子组件才可以通过属性使用 父组件传过来的data数据
+                        // 注意：props中的数据是只读的
+                        props:['sonmsg','msg1'],
+                        methods:{
+                            sonclick(){
+                                // 可以理解为，使用 this.$emit() 将绑定的事件注册了，然后就可以使用了
+                                this.$emit('sonmethod')
+                            },
+                            showclick(){
+                                this.$emit('sonshow')
+                            }
+                        }
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

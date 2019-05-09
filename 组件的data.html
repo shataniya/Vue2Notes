@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>组件里的data</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <com1></com1>
+            <com2></com2>
+            <ul>
+                <h4>以下是animal的列表：</h4>
+                <li v-for='item in animalList' :key='item.name'>
+                    <p>animal:{{ item.animal }}</p>
+                    <p>name:{{ item.name }}</p>
+                    <p>age:{{ item.age }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h4>我是全局组件com1</h4>
+                <!-- 数据的使用和实例是一样的 -->
+                <p>{{ msg1 }}</p>
+            </div>
+        </template>
+
+        <template id="temp2">
+            <div>
+                <h4>我是实例里边的子组件com2</h4>
+                <p>{{ msg2 }}</p>
+                <!-- 可以知道组件之间的数据都是私有的，组件相互之间的数据是不可以直接调用的 -->
+                <!-- <p>{{ msg1 }}</p> -->
+            </div>
+        </template>
+
+        <script>
+
+            Vue.component('com1',{
+                template:'#temp1',
+                data(){
+                    return {
+                        msg1:'我是全局组件com1里边的数据 msg1'
+                    }
+                }
+            })
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    animalList:[]
+                },
+                created(){
+                    this.getAnimal()
+                },
+                methods:{
+                    getAnimal(){
+                        this.$http.get('http://127.0.0.1:3005/animal').then(function(response){
+                            if(response.status==200){
+                                console.log(response.body)
+                                this.animalList = response.body
+                            }
+                        },function(error){
+                            console.log(error)
+                            console.log('fail to get data')
+                        })
+                    }
+                },
+                components:{
+                    com2:{
+                        template:'#temp2',
+                        data(){
+                            return {
+                                msg2:'我是子组件com2里边的数据 msg2'
+                            }
+                        }
+                    }
+                },
+            })
+        
+        </script>
+    </body>
+</html>

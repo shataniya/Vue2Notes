@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>VueRouter</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <router-link to='/com1?name=zhangsan&job=teacher' class="btn btn-primary">点击我切换到com1组件</router-link>
+            <router-link to='/com2' class="btn btn-success">点击我切换到com2组件</router-link>
+
+            <router-view></router-view>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h4>我是com1组件</h4>
+                <button class="btn btn-info" @click='show1'>我是com1的按钮，点击我会通过query获取路由参数</button>
+                <!-- <p>{{ $route.query.name }}</p> -->
+                <p>name: {{ $route.query.name }}</p>
+                <p>job:  {{ $route.query.job }}</p>
+            </div>
+        </template>
+
+        <template id="temp2">
+            <div>
+                <h4>我是com2组件</h4>
+                <button class="btn btn-info" @click='show2'>我是com2的按钮，点击我会通过params获取路由参数</button>
+                <p>{{ $route.params }}</p>
+            </div>
+        </template>
+
+        <script>
+
+            const com1 = {
+                template:'#temp1',
+                data(){
+                    return {}
+                },
+                methods:{
+                    show1(){
+                        console.log(this.$route.query)
+                        // alert(this.$route.query)
+                    }
+                }
+
+            }
+            const com2 = {
+                template:'#temp2',
+                methods:{
+                    show2(){
+                        console.log(this.$route.params)
+                    }
+                }
+            }
+
+            const router = new VueRouter({
+                routes:[
+                    { path:'/', redirect:'/com1' },
+                    { path:'/com1', component:com1 },
+                    { path:'/com2', component:com2 },
+                    { path:'/com2/:name/:job', component:com2 }
+                ]
+            })
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{},
+                methods:{},
+                router
+            })
+        
+        </script>
+    </body>
+</html>

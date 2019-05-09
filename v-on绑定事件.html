@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-on绑定时间</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <style>
+            
+            .div1{
+                width: 200px;
+                height: 200px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: blueviolet;
+            }
+            .div2{
+                width: 100px;
+                height: 100px;
+                background-color: aqua;
+            }
+        
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <p v-bind:title="this.msg">{{ this.msg }}</p>
+            <button @mouseleave='show'>点击我触发点击事件</button>
+            <!-- <div class="div1" @click.stop="showdiv1">
+                <div class="div2" @click.stop='showdiv2'></div>
+            </div> -->
+
+            <!-- <div class="div1" @click.capture="showdiv1">
+                <div class="div2" @click.capture='showdiv2'></div>
+            </div> -->
+            <!-- 在click事件后面添加.capture,可以看见事件在 捕获阶段就出发了 -->
+
+            <div class="div1" @click.self="showdiv1">
+                <div class="div2" @click.self='showdiv2'></div>
+            </div>
+            <!-- 可以看见只触发div2事件，点击事件会冒泡到div1，但是这是被动触发的点击事件，因此div1不执行 -->
+
+            <a href="https://www.baidu.com/" @click.prevent='askip'>点击我跳转到百度</a>
+            <!-- 可以看见加了 .prevent之后，a标签停止了跳转行为 -->
+            <!-- .prevent 作用就是 停止默认行为 -->
+
+            <div class="div1" @click="showdiv1">
+                <div class="div2" @click.once='showdiv2'></div>
+            </div>
+            <!-- 可以看见div2事件只触发了一次 -->
+        </div>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app', // el 是 element 元素的缩写，指向的是vue要操作的元素 
+                data:{
+                    msg:"我很幸运"
+                },
+                methods:{
+                    show(){
+                        alert("我是show函数")
+                    },
+                    // @click 绑定点击事件
+                    // @mousemove 绑定鼠标移动事件
+                    // @mouseleave 绑定鼠标离开事件
+
+                    showdiv1(){
+                        alert("你点击的是div1")
+                    },
+                    showdiv2(){
+                        alert("你点击的是div2")
+                    },
+                    // Vue 会默认事件的冒泡，如果不想出现事件的冒泡，可以使用事件修饰符
+
+                    // 事件修饰符
+                    // 1. .stop 会阻止事件的冒泡
+                    // 2. .prevent 停止事件的默认行为
+                    // 3. .capture 在事件的捕获阶段 触发事件
+                    // 4. .self 执行主动触发的事件，被动触发的事件不会执行
+                    // 5. .once 事件只会触发一次
+                    // 注意：事件修饰符是可以进行链式操作的
+
+
+
+                    askip(){
+                        alert("马上跳转百度")
+
+                        // 可以看见是先触发点击事件，然后进行跳转
+                    },
+                }
+            })
+
+        </script>
+    </body>
+</html>

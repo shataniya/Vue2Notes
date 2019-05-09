@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>定义私有组件</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <com1></com1>
+            <login></login>
+            <logout></logout>
+            <register></register>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h1>我是全局组件的h1</h1>
+                <p>我是全局组件里的p标签</p>
+            </div>
+        </template>
+
+        <template id="login">
+            <div>
+                <h1>我是私有组件h1</h1>
+                <p>我是私有组件里的p标签</p>
+            </div>
+        </template>
+
+        <template id="logout">
+            <div>
+                <h1>我是私有组件logout里的h1</h1>
+            </div>
+        </template>
+
+        <template id="register">
+            <div>
+                <h1>我是私有组件register里的h1</h1>
+            </div>
+        </template>
+
+        <script>
+
+            Vue.component('com1',{
+                template:'#temp1'
+            })
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{},
+                methods:{},
+                components:{
+                    login:{
+                        template:'#login'
+                    },
+                    logout:{
+                        template:'#logout'
+                    },
+                    register:{
+                        template:'#register'
+                    }
+                }
+            })
+
+
+            // 定义私有组件的方法：
+            // 在 Vue实例的 components 里定义私有组件
+            // 格式为：私有组件名:{ template }
+            // 其中模板 template 可以放到外面定义，也可以在里面定义，也可以从外部添加引入
+        
+        </script>
+    </body>
+</html>

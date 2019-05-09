@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vue组件</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <my-com1></my-com1>
+            <my-com2></my-com2>
+            <my-com3></my-com3>
+        </div>
+
+        <template id="tem1">
+            <div>
+                <h3>海南是空气最好的省份</h3>
+                <p>你是不是这样认为呢</p>
+            </div>
+        </template>
+
+        <script>
+
+            // 使用 Vue.extend() 创建一个全局组件，向里面上传一个对象，对象里有template模板
+
+            const mycom1 = Vue.extend({
+                template:`<h1>你是不是傻逼</h1>`
+            })
+            // 之后使用 Vue.component() 注册组件，并赋予组建一个使用名称，记住名称符合 驼峰命名法
+            // 符合 驼峰命名法的名称在使用时要用 - 连接，例如：myCom1 --》 使用的时候，就用 my-com1
+            Vue.component('myCom1',mycom1)
+
+            // 上面的组件注册方式太麻烦了，可以简写一点
+            // 不省略 Vue.extend的写法
+            // Vue.component('myCom2',Vue.extend({
+            //     template:`<h2>傻逼把你</h2>`
+            // }))
+
+            // 省略 Vue.extend 的写法
+            Vue.component('myCom2',{
+                template:`<h2>傻逼把你</h2>`
+            })
+
+            // 上面的方式没有模板因为是字符串的形式，所以没有提示，因此很容易写错
+            Vue.component('myCom3',{
+                template:"#tem1"
+            })
+            // 这种写法适用于比较大的组件
+
+            const vm = new Vue({
+                el:'#app',
+                data:{},
+                methods:{}
+            })
+        
+        </script>
+    </body>
+</html>

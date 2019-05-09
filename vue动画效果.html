@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-bind绑定</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+        <style>
+        body{
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #app{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .ball{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: blue;
+        }
+        </style>
+    </head>
+    <body>
+
+        <div id="app">
+            <button class="btn btn-primary" @click='show=!show'>点击开始演示动画效果</button>
+            <button class="btn btn-primary" @click='flag=!flag'>点击演示半场动画效果</button>
+            <transition class="btn btn-primary" 
+                @before-enter='beforeEnter'
+                @enter='Enter'
+                @after-enter='afterEnter'>
+                <div class="ball" v-show='flag'></div>
+            </transition>
+            <transition enter-active-class="bounceInUp" leave-active-class="bounceOutLeft">
+                <h1 v-if='show' class="animated">我是演示动画效果的h1</h1>
+            </transition>
+        </div>
+
+        <script>
+
+            // enter-active-class 就是动画进场的类
+            // leave-active-class 就是动画离场的类
+            // 记得要在 使用动画的主体添加上 根本类animated，例如这次的动画主体就是h1，因此要在h1上添加 aniamted 这个类
+
+            // javascript 钩子
+            // enter系：
+            // 1. before-enter
+            // 2. enter
+            // 3. after-enter
+
+            // leave系：
+            // 1. before-leave
+            // 2. leave
+            // 3. after-leave
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    show:false,
+                    flag:false
+                },
+                methods:{
+                    beforeEnter(el){
+                        el.style.transform='translate(0,0)'
+                    },
+                    Enter(el,done){
+                        el.offsetWidth
+                        el.style.transform='translate(150px,450px)'
+                        el.style.transition='all 1s ease'
+                        done() // 这个 done() 函数别忘了
+                    },
+                    afterEnter(el){
+                        this.flag=!this.flag
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

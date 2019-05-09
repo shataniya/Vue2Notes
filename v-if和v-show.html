@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-if</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h3 v-if="flag1">你是是不是傻</h3>
+            <h3 v-show="flag1">你是傻</h3>
+        </div>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    flag1:false
+                },
+                methods:{}
+            })
+        
+        </script>
+    </body>
+</html>

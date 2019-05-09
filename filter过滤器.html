@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>filter</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>{{ msg | msgFormat("傻逼") }}</p>
+            <p>{{ time | timeFormat() }}</p>
+        </div>
+
+        <script>
+
+            // 创建一个全局的过滤器 filter
+            // Vue.filter(过滤器名,function(params1,params2){})
+            // 第一个参数params1就是要过滤的数据
+            Vue.filter('msgFormat',function(message,arg){
+                return message.replace(/聪明/g,arg)
+            })
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    msg:"你是一个十分聪明的人",
+                    time:new Date()
+                },
+                methods:{},
+                filters:{
+                    timeFormat(data,arg=''){
+                        let dt = new Date(data)
+                        let year = dt.getFullYear()
+                        let month = dt.getMonth()+1
+                        let day = dt.getDate()
+                        let hours = dt.getHours()
+                        let minutes = dt.getMinutes()
+                        let second = dt.getSeconds()
+                        return `${year}-${month}-${day}  ${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${second.toString().padStart(2,'0')}`
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

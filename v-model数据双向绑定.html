@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-modal数据双向绑定</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <style>
+        
+            form{
+                width: 300px;
+                padding: 20px;
+                margin: 100px auto;
+                text-align: center;
+            }
+            input{
+                margin: 10px;
+                text-align: center;
+            }
+            .div1{
+                width: 100px;
+                height: 100px;
+                background-color: aqua;
+            }
+        
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <textarea name="" id="" cols="30" rows="10">{{ msg }}</textarea>
+            <form action="">
+                <label for="UserName">UserName</label>
+                <input type="text" class="form-control" name="UserName" id="UserName" v-model='UserName'>
+                <label for="Age">Age</label>
+                <input type="text" class="form-control" name="Age" id="Age" v-model='Age'>
+                <input type="submit" class="btn btn-primary btn-block" value="submit" @click='formoutput'>
+
+                <div>
+                    <p>UserName：&nbsp;{{ UserName }}</p>
+                    <p>Age:&nbsp;{{ Age }}</p>
+                </div>
+                <!-- 按下 ctrl + click（点击）就可以触发事件 -->
+                <div @click.ctrl='clickaddenter' class="div1"></div>
+                <!-- 按下 Alt 或者 c 触发事件  -->
+                <input type="text" @keydown.alt.67='altaddc'>
+                
+
+                
+            </form>
+        </div>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    msg:'你是不是傻你是不是傻你是不是傻你是不是傻你是不是傻你是不是傻',
+                    UserName:'',
+                    Age:''
+                },
+                methods:{
+                    enterdown(){
+                        alert("space")
+                    },
+                    formoutput(){
+                        alert(`UserName:   ${this.UserName}  Age:   ${this.Age}`)
+                    },
+                    clickaddenter(){
+                        alert("click+ctrl")
+                    },
+                    altaddc(){
+                        alert("alt+c")
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

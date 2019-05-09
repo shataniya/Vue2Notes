@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-bind绑定</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p v-bind:title="this.msg">{{ this.msg }}</p>
+        </div>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app', // el 是 element 元素的缩写，指向的是vue要操作的元素 
+                data:{
+                    msg:"我很幸运"
+
+                    // 绑定的属性值为 msg 或者 this.msg ，效果是一样的
+                },
+                methods:{}
+            })
+
+            // v-bind: 后面跟的要绑定的属性
+            // 为了方便，v-bind: 简写为 :
+        
+        </script>
+    </body>
+</html>

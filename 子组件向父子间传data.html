@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-bind绑定</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>{{ fathermsg }}</p>
+            <!-- 通过事件绑定的形式向子组件传递 fatherme() 方法 ，sonme可以理解为是虚拟事件，虚拟事件装载着父组件传递过来的方法 -->
+            <com1 @sonme='fatherme'></com1>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h4>我是子组件</h4>
+                <input type="text" v-model='sonmsg' @change='tofa'>
+                <p>{{ sonmsg }}</p>
+                <!-- <button @click='tofa'>点击我子组件向父组件传data</button> -->
+            </div>
+        </template>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    fathermsg:''
+                },
+                methods:{
+                    fatherme(data){
+                        console.log(data)
+                        this.fathermsg = data
+                    }
+                },
+                components:{
+                    com1:{
+                        template:'#temp1',
+                        data(){
+                            return {
+                                sonmsg:'我是子组件的data数据'
+                            }
+                        },
+                        methods:{
+                            tofa(){
+                                // this.$emit() 第一个参数是 虚拟事件，相当于把父组件传递过来的方法在这里注册了
+                                // this.$emit() 的第二个参数是要传递的参数，也就是子组件向父组件传递的参数
+                                this.$emit('sonme',this.sonmsg)
+                            }
+                        }
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

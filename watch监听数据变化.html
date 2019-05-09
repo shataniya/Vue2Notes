@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>watch监听数据变化</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model='msg1'>
+            <p>{{ msg1 }}</p>
+            <p>{{ msg2 }}</p>
+            <router-link to='/com1' class="btn btn-primary">点击我切换到com1组件</router-link>
+            <router-link to='/com2' class="btn btn-success">点击我切换到com2组件</router-link>
+            <router-view></router-view>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h4>这是com1组件</h4>
+                <button class="btn btn-info" @click='show1'>点击我显示路由</button>
+                <p></p>
+            </div>
+        </template>
+
+        <template id="temp2">
+            <div>
+                <h4>这是com2组件</h4>
+            </div>
+        </template>
+
+        <script>
+
+            const com1 = {
+                template:'#temp1',
+                methods:{
+                    show1(){
+                        console.log(this.$route.path)
+                    }
+                },
+                watch:{
+
+                }
+            }
+
+            const com2 = {
+                template:'#temp2'
+            }
+
+            const router = new VueRouter({
+                routes:[
+                    { path:'/', redirect:'/com1' },
+                    { path:'/com1', component:com1 },
+                    { path:'/com2', component:com2 }
+                ]
+            })
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    msg1:'',
+                    msg2:''
+                },
+                methods:{},
+                // watch 可以监听数据的变化，只要数据发生变化，那么就会触发数据后面的函数
+                watch:{
+                    // function() 第一个参数是新值，第二个参数是旧值
+                    msg1:function(newValue,oldValue){
+                        this.msg2 = oldValue
+                        this.msg1 = newValue
+
+                        // watch 的有点就在于可以监听路由的变化
+                        // console.log(this.$route.path)
+                    },
+                    '$route.path':function(newValue,oldValue){
+                        // console.log(newValue)
+                        // console.log(oldValue)
+                        if(newValue=='/com2'){
+                            console.log('这是com2组件')
+                        }else{
+                            console.log('这是com1组件')
+                        }
+                    }
+                },
+                router
+            })
+        
+        </script>
+    </body>
+</html>

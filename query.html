@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>query</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <router-link class="btn btn-primary" to="/com1?name=zhangsan&job=teacher">com1组件</router-link>
+            <router-link class="btn btn-primary" to="/com2/miaomi/student">com2组件</router-link>
+            <router-view></router-view>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h4>这是com1组件</h4>
+
+                <!-- query 不能渲染出对象，但是可以渲染出对象的属性值  -->
+                <p>{{ queryinfo }}</p>
+                <button class="btn btn-primary" @click="show1">点击通过query获取路由信息</button>
+            </div>
+        </template>
+
+        <template id="temp2">
+            <div>
+                <h4>这是com2组件</h4>
+                <!-- params 可以渲染出对象，也可以渲染出对象的属性值 -->
+                <p>{{ paramsinfo }}</p>
+                <button class="btn btn-success" @click='show2'>点击通过params获取路由信息</button>
+            </div>
+        </template>
+
+        <script>
+
+            const com1 = {
+                template:'#temp1',
+                data(){
+                    return {
+                        queryinfo:''
+                    }
+                },
+                methods:{
+                    show1(){
+                        // this.$route.query 会返回一个参数对象，里面的参数就是路由url里边传递的参数
+                        console.log(this.$route.query)
+                        // /com1?name=zhangsan&job=teacher
+                        // 那么 this.$route.query 就是 {name: "zhangsan", job: "teacher"}
+                        console.log(this.$route.query.name)
+                        this.queryinfo = this.$route.query.name
+                        console.log(this.queryinfo)
+
+                        // 总结：this.$route.query 获取的是路由里边的直接参数 ?name=zhangsan&job=teacher
+                    }
+                }
+            }
+            const com2 = {
+                template:'#temp2',
+                data(){
+                    return {
+                        paramsinfo:''
+                    }
+                },
+                methods:{
+                    show2(){
+                        console.log(this.$route.params)
+                        this.paramsinfo = this.$route.params.name
+                        console.log(this.paramsinfo)
+                    }
+                }
+            }
+
+            const router = new VueRouter({
+                routes:[
+                    { path:'/', redirect:'/com1' },
+                    { path:'/com1', component:com1 },
+
+                    // this.$route.params 获取的是解析参数
+                    { path:'/com2/:name/:job', component:com2 }
+
+                ]
+            })
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{},
+                methods:{},
+                router
+            })
+        
+        </script>
+    </body>
+</html>

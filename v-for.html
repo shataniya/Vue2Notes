@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-for</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="name">
+            <input type="text" v-model="content">
+            <button @click='add'>add</button>
+            <ul class="container">
+                <li v-for='item in comment' :key="item.id">
+                    <h4>{{ item.name }}</h4>
+                    <p>{{ item.content }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    comment:[
+                        { id:1,name:"张三",content:"你是不是傻" },
+                        { id:2,name:"李四",content:"你才傻呢" },
+                        { id:3,name:"王五",content:"一楼怕是个傻子吧" },
+                        { id:4,name:"赵六",content:"你们都是傻子" }
+                    ],
+                    content:'',
+                    name:'',
+                    sata:{}
+                },
+                methods:{
+                    add(){
+                        this.sata.id = new Date().getTime()
+                        this.sata.name = this.name
+                        this.sata.content = this.content
+
+                        this.comment.push(this.sata)
+
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

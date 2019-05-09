@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-bind绑定</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+        <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <router-link class="btn btn-primary" to='/com1'>切换到com1</router-link>
+            <router-link class="btn btn-danger" to='/com2'>切换到com1</router-link>
+
+            <router-view></router-view>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h3>我是com1组件</h3>
+            </div>
+        </template>
+
+        <template id="temp2">
+            <div>
+                <h3>我是com2组件</h3>
+            </div>
+        </template>
+
+
+        <script>
+
+            // 路由分为 前端路由 和 后端路由
+            // 1. 后端路由：每一个前端的超链接都是一个url地址，每一个url地址都对应服务器上面的数据
+            // 2. 前端路由：对于单页面来说，通过url中的hash（#号）来实现不同页面之间的切换，点击不同的a连接来实现不同页面
+            // 不同组件之间的切换，这就是 前端路由
+
+            const com1 = {
+                template:"#temp1"
+            }
+
+            const com2 = {
+                template:"#temp2"
+            }
+
+            const router = new VueRouter({
+                routes:[
+                    { path:'/', redirect:'/com1' },
+
+                    // 注意：component 后边跟上的是 组件的模板对象，不能是组件的模板对象的名称
+                    { path:'/com1', component:com1 },
+                    { path:'/com2', component:com2 }
+                ]
+            })
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{},
+                methods:{},
+                router
+            })
+        
+        </script>
+    </body>
+</html>

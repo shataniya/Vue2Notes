@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-bind绑定</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <button class="btn btn-primary" @click='gethttp'>点击发送httpget请求</button>
+            <button class="btn btn-danger" @click='posthttp'>点击发送httppost请求</button>
+            <p>{{ getinfo }}</p>
+            <p>{{ postinfo }}</p>
+        </div>
+
+        <script>
+            Vue.http.options.emulateJSON = true;
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    getinfo:'',
+                    postinfo:''
+                },
+                methods:{
+                    gethttp(){
+                        this.$http.get('http://127.0.0.1:3000/person').then(function(response){
+                            // getinfo = response.body
+                            console.log(response)
+                            this.getinfo = response.body
+                        },function(){
+                            console.log("error")
+                        })
+                    },
+                    posthttp(){
+                        this.$http.post("http://127.0.0.1:3000/person",{ name:'miaomiao' },{emulateJSON:true}).then(function(response){
+                            console.log(response)
+                            this.postinfo = response.body
+                        },function(){
+                            console.log("error")
+                        }).catch(function(response){
+                            console.log(response)
+                        })
+
+                        // 使用 vue-resource 发送 post请求
+                        // this.$http.post(url,{ 条件 },{ emulateJSON:true })
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

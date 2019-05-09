@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-clock</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>{{ msg }}</p>
+            <p v-cloak>我是原先p里的一句话</p>
+            <p v-text='msg2'>我是原先p里的一句话</p>
+            <p v-html='msg2'>我是原先p里的一句话</p>
+        </div>
+
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    msg:"zhangsan",
+                    msg2:`我是张三`,
+                },
+                methods:{
+
+                }
+            })
+
+            // v-text 和 v-html 的比较：
+            // 1. 都会覆盖所有原本在标签里的内容
+            // 2. v-text 显示的是文本，不会识别html标签
+            // 3. v-html 显示的也是文本，会识别html标签
+        
+        </script>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>v-bind绑定</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h1 ref='h1'>{{ msg }}</h1>
+            <input type="text" v-model='msg'>
+            <button @click='show'>点击我弹出h1里的内容</button>
+
+            <!-- 给子组件设置 ref属性，父组件可以根据 ref属性获取子组件的 data数据 和 方法 -->
+            <com1 ref='com1'></com1>
+            <button @click='fashowmsg'>点击我显示子组件的data数据</button>
+            <button @click='fashowfunc'>点击我显示子组件的方法</button>
+        </div>
+
+        <template id="temp1">
+            <div>
+                <h4>我是子组件里的h4</h4>
+            </div>
+        </template>
+
+        <script>
+        
+            const vm = new Vue({
+                el:'#app',
+                data:{
+                    msg:'我是data数据'
+                },
+                methods:{
+                    show(){
+                        alert(this.$refs.h1.innerText)
+                    },
+                    fashowmsg(){
+                        alert(this.$refs.com1.sonmsg)
+                    },
+                    fashowfunc(){
+                        this.$refs.com1.sonfunc()
+                    }
+                },
+                components:{
+                    com1:{
+                        template:'#temp1',
+                        data(){
+                            return {
+                                sonmsg:'我是子组件的data数据 sonmsg'
+                            }
+                        },
+                        methods:{
+                            sonfunc(){
+                                alert('我是子组件里的 sonfunc 方法')
+                            }
+                        }
+                    }
+                }
+            })
+        
+        </script>
+    </body>
+</html>

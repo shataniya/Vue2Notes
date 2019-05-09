@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>jquery发送ajax请求</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+        <button class="btn btn-primary" id="btn1">get请求</button>
+        <button class="btn btn-primary" id="btn2">getJSON请求</button>
+        <button class="btn btn-primary" id="btn3">post请求</button>
+        <button class="btn btn-primary" id="btn4">jquery发送ajax请求</button>
+        <button class="btn btn-primary" id="btn5">ajax请求</button>
+
+        <script>
+
+            // $.get(url,{ data },func,dataType)
+            // - dataType 一般是 "json"
+
+            $("#btn1").click(function(){
+                $.get("http://127.0.0.1:3000/person",{ name:"zhangsan" },function(response){
+                    console.log(response)
+                },"json")
+            })
+
+            // $.getJSON(url,{ data },func)
+            // $.getJSON 和 $.get 的差别就是 $.getJSON 不需要设置 dataType,相当于dataType默认是"json",不需要设置了
+            $("#btn2").click(function(){
+                $.getJSON("http://127.0.0.1:3000/person",{ name:"xiaomi" },function(response){
+                    console.log(response)
+                })
+            })
+
+            // $.post(url,{ data },func,dataType)
+            $("#btn3").click(function(){
+                $.post("http://127.0.0.1:3000/person",{ name:"miaomiao" },function(response){
+                    console.log(response)
+                },"json")
+            })
+
+            // $.ajax(url,data,type,datatype,success)
+            $("#btn4").click(function(){
+                $.ajax({
+                    url:"http://127.0.0.1:3000/person",
+                    data:{ name:"小李" },
+                    type:"POST",
+                    dataType:"json",
+                    success:function(data){
+                        console.log(data)
+                    }
+                })
+            })
+
+            $("#btn5").click(function(){
+                let request = new XMLHttpRequest()
+                request.open("POST","http://127.0.0.1:3000/person",true)
+                request.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+                request.send("name=xiaomi")
+                request.onreadystatechange = function(){
+                    if(request.readyState==4&&request.status==200){
+                        // console.log(request.response)
+                        console.log(request.responseText)
+                    }
+                }
+
+            })
+
+
+
+        
+        </script>
+    </body>
+</html>
